@@ -52,9 +52,11 @@ SELECT ProductName , ROUND(SUM(Profit) ,2) AS sum_profit, RANK() OVER(ORDER BY R
 SELECT ProductName, sum_profit FROM cte WHERE ranks IN (1,(SELECT COUNT(*) FROM cte));
 
 # What segment makes the most of our profits and sales ?
+SELECT Segment,  ROUND(SUM(Profit) ,2) AS sum_profit , ROUND(SUM(Profit) ,2) AS sum_of_profit , ROUND((ROUND(SUM(Profit) ,2) / ROUND(SUM(Sales) ,2)) * 100 ,2) AS profit_margin FROM super_store GROUP BY Segment ORDER BY profit_margin DESC;
 
+# How many customers do we have (unique customer IDs) in total and how much per region and state?
+SELECT Region , COUNT(DISTINCT CustomerID) AS total_customers FROM super_store GROUP BY Region;
+SELECT State , COUNT(DISTINCT CustomerID) AS total_customers FROM super_store GROUP BY State;
 
-
-
-
-
+# Customer rewards program RANK the top customer who are the most profitable for use
+SELECT CustomerID , CustomerName , ROUND(SUM(Profit) ,2) AS profit, RANK() OVER(ORDER BY ROUND(SUM(Profit) ,2) DESC) AS top_performers FROM super_store GROUP BY CustomerID,CustomerName LIMIT 10;
