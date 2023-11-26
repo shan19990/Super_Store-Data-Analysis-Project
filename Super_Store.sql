@@ -60,3 +60,17 @@ SELECT State , COUNT(DISTINCT CustomerID) AS total_customers FROM super_store GR
 
 # Customer rewards program RANK the top customer who are the most profitable for use
 SELECT CustomerID , CustomerName , ROUND(SUM(Profit) ,2) AS profit, RANK() OVER(ORDER BY ROUND(SUM(Profit) ,2) DESC) AS top_performers FROM super_store GROUP BY CustomerID,CustomerName LIMIT 10;
+
+# Average shipping time per class and in total
+SELECT ROUND(AVG(DATEDIFF(ShipDate,OrderDate)) ,2) AS avg_shipping FROM super_store;
+
+# The shipping time in each shipping mode is
+SELECT ShipMode, ROUND(AVG(DATEDIFF(ShipDate,OrderDate)) ,1) AS avg_shipping FROM super_store GROUP BY ShipMode;
+
+
+
+
+
+
+
+
